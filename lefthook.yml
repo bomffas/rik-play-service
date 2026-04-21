@@ -1,0 +1,21 @@
+pre-commit:
+  parallel: true
+  commands:
+    lint:
+      glob: "*.ts"
+      run: pnpm eslint "{staged_files}" --fix --max-warnings 0
+      stage_fixed: true
+    format:
+      glob: "*.ts"
+      run: pnpm prettier --write "{staged_files}"
+      stage_fixed: true
+
+commit-msg:
+  commands:
+    conventional:
+      run: npx --yes commitlint --edit {1}
+
+pre-push:
+  commands:
+    test:
+      run: pnpm test --passWithNoTests
